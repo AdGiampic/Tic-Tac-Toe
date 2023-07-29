@@ -1,44 +1,49 @@
 // factory function that creates a player  
 const playerFactory = (name,type) => {return {name,type}};
 
-// function that creates a gameboard
-function gameBoard () {
-    // defining structure
-    const rows = 3;
-    const columns = 2;
+const Player1 = playerFactory('John','X');
+const Player2 = playerFactory('Ralph','O');
+
+// module that creates a gameboard
+const gameBoard = (() => {
+    const columns = 3;
+    const rows = columns;
+    // created object that contains 3 arrays of 3 to simulate a Tic-Tac-Toe board
     const board = [];
-    let boardLocation = document.getElementById('gameboard');
-    for (let i = 0; i < rows; i++) {
-    // creating columns   
+    for (let i = 0; i < columns; i++) {
         board[i] = [];
-        let c = document.createElement('p');
-        c.textContent = "Column";
-        c.style.border = '1px solid black';
-        boardLocation.appendChild(c);
-        // creating rows
-        for (let j = 0; j < columns; j++) {
-            let r = document.createElement('p');
-            r.textContent = "Rows";
-            r.style.border = '1px solid black';
-            boardLocation.appendChild(r);
+        for (let j = 0; j < rows; j++) {
             board[i].push();
         }
     }
-    return board
-}
+    return board;
+})();
 
-const Player1 = playerFactory('John','X');
 
 const play = (player) => {
-    const board = gameBoard(); // creates board
     const getType = player.type; // get value (X or O)
-    //add event listener 
-    board[0][0] = getType; // draw in board find way to display board
-    return board;
+    // try with prompt first
+    const location = prompt(player.name +" ," + "where do you want to place your mark in the board?");
+    let c = parseInt(location.charAt(0)) - 1;
+    let r = parseInt(location.charAt(1)) - 1;
+    //add event listener (UI) later
+    gameBoard[c][r] = getType; // draw in board find way to display board
+    return gameBoard;
 }
 
+// make module that calls play many times until someone wins or board is full
+const game = (() => {
+    // Calculate area of gameBoard to know how many times 'play' must be run until the board it's full
+    const area = gameBoard.length * gameBoard.length; // gameBoard is a square
+    for (let i = 1; i <= area; i++) { 
+        if (i % 2 === 0) {
+            play(Player1)
+        } else {
+            play(Player2)
+        }
+    }
+    console.log(gameBoard);
+})();
 
-
-console.log(play(Player1));
 
 
