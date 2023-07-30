@@ -8,12 +8,12 @@ const Player2 = playerFactory('Ralph','O');
 const gameBoard = (() => {
     const columns = 3;
     const rows = columns;
-    // created object that contains 3 arrays of 3 to simulate a Tic-Tac-Toe board
+    // created array that contains 3 arrays of 3 to simulate a Tic-Tac-Toe board
     const board = [];
     for (let i = 0; i < columns; i++) {
         board[i] = [];
         for (let j = 0; j < rows; j++) {
-            board[i].push();
+            board[i].push(j);
         }
     }
     return board;
@@ -26,24 +26,51 @@ const play = (player) => {
     const location = prompt(player.name +" ," + "where do you want to place your mark in the board?");
     let c = parseInt(location.charAt(0)) - 1;
     let r = parseInt(location.charAt(1)) - 1;
+    
     //add event listener (UI) later
-    gameBoard[c][r] = getType; // draw in board find way to display board
-    return gameBoard;
-}
-
-// make module that calls play many times until someone wins or board is full
-const game = (() => {
-    // Calculate area of gameBoard to know how many times 'play' must be run until the board it's full
-    const area = gameBoard.length * gameBoard.length; // gameBoard is a square
-    for (let i = 1; i <= area; i++) { 
-        if (i % 2 === 0) {
+    
+    //check if the spot is already taken
+    if (gameBoard[c][r] !== undefined) {
+        alert('Spot Already Taken')
+        // use a recursion algorithm to call play many times until the player picks an empty spot
+        // to manage which player must repeat the turn I check the current player's name
+        if (player.name === Player1.name) {
             play(Player1)
         } else {
             play(Player2)
+        }
+    } else {
+        gameBoard[c][r] = getType; // draw in board 
+    }
+    //check for win
+
+}
+
+// module that calls play many times until someone wins or board is full
+
+const game = (() => {
+    // Calculate area of gameBoard to know how many times 'play' must be run until the board it's full
+    const area = gameBoard.length * gameBoard.length; // gameBoard is a square
+    // loop that manages each player's turn, if the number is odd is player1's turn otherwise it's player2
+    
+    for (let i = 1; i <= area; i++) { 
+        if (i % 2 === 0) {
+            play(Player2)
+        } else {
+            play(Player1)
         }
     }
     console.log(gameBoard);
 })();
 
+
+/*
+for (let i = 0; i < gameBoard.length; i++) {
+    for (let j = 0; j < gameBoard[i].length; j++) {
+        if ()
+    }
+}
+console.log(gameBoard)
+*/
 
 
