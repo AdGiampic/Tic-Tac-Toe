@@ -13,7 +13,7 @@ const gameBoard = (() => {
     for (let i = 0; i < columns; i++) {
         board[i] = [];
         for (let j = 0; j < rows; j++) {
-            board[i].push(j);
+            board[i].push();
         }
     }
     return board;
@@ -43,11 +43,27 @@ const play = (player) => {
         gameBoard[c][r] = getType; // draw in board 
     }
     //check for win
-
+    if (testWin(player) === true) {
+        console.log(player.name + "has won.")
+        return
+    }
+}
+let testWin = (player) => {
+    for (let i = 0; i < gameBoard.length; i++) {
+        let arrayColumn = (arr, n) => arr.map(x => x[n]); // anonymous function that uses map method to return a column of the 2D array
+        // check if all elements of an array has same value
+        let allEqual = arr => arr.every(val => val === arr[0]);
+        let winRow = allEqual(gameBoard[i]); // boolean variable that returns if the user has won if the board has same values in a row
+        let winColumn = allEqual(arrayColumn(gameBoard,i)); // test if the column of 2D array have all same value
+        if (winRow === true || winColumn === true) {
+            alert('Win!')
+            return true
+        }
+    }
+    
 }
 
 // module that calls play many times until someone wins or board is full
-
 const game = (() => {
     // Calculate area of gameBoard to know how many times 'play' must be run until the board it's full
     const area = gameBoard.length * gameBoard.length; // gameBoard is a square
@@ -64,12 +80,11 @@ const game = (() => {
 })();
 
 
+
+// check win diagonal to do 
+
 /*
-for (let i = 0; i < gameBoard.length; i++) {
-    for (let j = 0; j < gameBoard[i].length; j++) {
-        if ()
-    }
-}
+console.log(testWin(Player1))
 console.log(gameBoard)
 */
 
