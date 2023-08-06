@@ -1,6 +1,7 @@
 // factory function that creates a player  
 const playerFactory = (name,type) => {return {name,type}};
 
+// ask name 
 const Player1 = playerFactory('John','X');
 const Player2 = playerFactory('Ralph','O');
 
@@ -53,7 +54,7 @@ let testWin = (player) => {
     let allEqual = arr => arr.every(val => val === arr[0]);
     for (let i = 0; i < gameBoard.length; i++) {
         let arrayColumn = (arr, n) => arr.map(x => x[n]); // anonymous function that uses map method to return a column of the 2D array
-        let winRow = allEqual(gameBoard[i]); // boolean variable that returns if the user has won if the board has same values in a row
+        let winRow = allEqual(gameBoard[i]); // boolean variable that returns if the user has same values in a row
         let winColumn = allEqual(arrayColumn(gameBoard,i)); // test if the column of 2D array have all same value
         // if one of the win conditions is met then I return true to stop the game
         if (winRow === true || winColumn === true) {
@@ -71,7 +72,7 @@ let testWin = (player) => {
 
 // module IIFE that calls play many times until someone wins or board is full
 const game = (() => {
-    // Calculate area of gameBoard to know how many times 'play' must be run until the board it's full
+    // Calculate area of gameBoard to know how many times 'play' must be run until the board is full
     const area = gameBoard.length * gameBoard.length; // gameBoard is a square
     // loop that manages each player's turn, if the number is odd is player1's turn otherwise it's player2
     let win = 0;
@@ -83,6 +84,7 @@ const game = (() => {
             playerTurn = Player1;
         }
         if (play(playerTurn) === true) {
+            // if someone wins I stop the game
             win = 1;
             console.log(gameBoard);
             alert(playerTurn['name'] + " has won!")
